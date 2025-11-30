@@ -20,49 +20,44 @@ struct TreeNode {
         delete right;
     }
 };
-bool isSign(char c){
-    return c=='+' || c=='-';
-}
 
+// Normalizer --> Correct user input
 string normalizer(string expr) {
+    auto isSign = [](char c) {
+        return ( c == '+' || c == '-');
+    };
     string out;
-
-    for(int i=0;i<expr.size();){
-        if(isSign(expr[i])){
-            int j=i;
-            while(j<expr.size() && isSign(expr[j])) 
-                j++;
+    for(int i = 0; i < expr.size();) {
+        if(isSign(expr[i])) {
+            int j = i;
+            while(j < expr.size() && isSign(expr[j])) j++;
 
             bool bol = false;
-            int p = out.size()-1;
+            int p = out.size() - 1;
 
-            while(p>=0 && out[p]==' ') 
-                p--;
+            while(p >= 0 && out[p] == ' ') p--;
 
-            if(p<0 || out[p]=='(') 
-                bol = true;
+            if(p < 0 || out[p] == '(') bol = true;
 
-            if(bol){
-                int c=0;
-                for(int k=i;k<j;k++)   
-                    if(expr[k]=='-') 
-                        c++;
+            if(bol) {
+                int c = 0;
+                for(int k = i; k < j; k++)   
+                    if(expr[k] == '-') c++;
 
-                if(c%2==1) 
-                    out.push_back('-');
-            } else {
-                int c=0;
-                for(int k=i;k<j;k++) 
-                    if(expr[k]=='-') 
-                        c++;
+                if(c%2==1) out.push_back('-');
+            } 
+            else {
+                int c = 0;
+                for(int k = i; k < j; k++) 
+                    if(expr[k] == '-') c++;
                 if(c%2==1) 
                     out+="-";
                 else 
                     out+="+";
             }
-            i=j;
+            i = j;
         }
-        else{
+        else {
             out.push_back(expr[i]);
             i++;
         }
@@ -75,11 +70,11 @@ string normalizer(string expr) {
 vector<string> tokenize(const string& expr) {
     vector<string> tokens;
     string token;
-    for (size_t i = 0; i < expr.size(); ++i) {
+    for (int i = 0; i < expr.size(); ++i) {
         char c = expr[i];
         if (isspace(c)) continue;
 
-        if (isdigit(c) || c == '.') {
+        if (isdigit(c)) { // integer float
             token = "";
             while (i < expr.size() && (isdigit(expr[i]) || expr[i] == '.')) {
                 token += expr[i++];
@@ -87,7 +82,7 @@ vector<string> tokenize(const string& expr) {
             --i;
             tokens.push_back(token);
         }
-        else if (isalpha(c)) {
+        else if (isalpha(c)) { // var
             token = "";
             while (i < expr.size() && (isalnum(expr[i]) || expr[i] == '_')) {
                 token += expr[i++];
@@ -95,14 +90,14 @@ vector<string> tokenize(const string& expr) {
             --i;
             tokens.push_back(token);
         }
-        else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '(' || c == ')' || c == '√') {
+        else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '(' || c == ')' || c == '√') { // operand
             tokens.push_back(string(1, c));
         }
         else {
-            throw runtime_error("Invalid character: " + string(1, c));
+            throw runtime_error("Invalid character: " + string(1, c)); // error for invalid char like # @
         }
     }
-    return tokens;
+    return tokens; // return a vector for use in tree  
 }
 
 int main(){
