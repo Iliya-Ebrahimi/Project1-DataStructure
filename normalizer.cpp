@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// throw an error if the number under a sqrt is negatave !( does not work if the answer under it is negative --> √5-6 )!
+void NegativeSqrt(string s){
+    for (int i = 0; i< s.size()-1;i++){
+        if (s[i] == '√' and s[i+1] == '-'){
+            throw runtime_error("No negative sqrts");
+        }
+    }
+}
+
+
+// Normalizer --> Correct user input
+string normalizer(string expr) {
+    auto isSign = [](char c) {
+        return ( c == '+' || c == '-');
+    };
+    auto isMul = [] (char c){
+        return (c == '*' || c == '/' || c == '^');
+    };
+    string out = "";
+    string ans = "";
+
+    // this part removes every extra operands in a cluster of '+'s and '-'s
+    for(int i = 0; i < expr.size();) {
+        if(isSign(expr[i])) {
+            int j = i;
+            while(j < expr.size() && isSign(expr[j])) j++;
+
+            bool bol = false;
+            int p = out.size() - 1;
+
+            while(p >= 0 && out[p] == ' ') p--;
+
+            if(p < 0 || out[p] == '(') bol = true;
+
+            int c = 0;
+            for(int k = i; k < j; k++)
+                if(expr[k] == '-') c++;
+
+            if(bol) {
+                if(c%2==1) out.push_back('-');
+            } 
+            else {
+                if(c%2==1) out.push_back('-');
+                else out.push_back('+');
+            }
+
+            i = j;
+        }
+        else {
+            out.push_back(expr[i]);
+            i++;
+        }
+    }
+    
+    // this part removes every spaces in the input " "
+    for (int i = 0;i < out.size(); i++){
+        if (out[i] != ' ')
+            ans += out[i];
+    }
+    
+    out = ans;
+    ans = "";
+
+    // this part adds '*' behind '(' that do not have an operand behind them and after ')' that doesn't have an operand after them
+    for (int i = 0;i < out.size();i++){
+        
+        if (out[i] == '('){
+            if (i > 0 && !isSign(out[i-1]) && !isMul(out[i-1]) && out[i-1] != '(' && out[i-1] != ')')
+                ans += '*';
+            ans += '(';
+        }
+
+        else if (out[i] == ')' && i != out.size()-1){
+            ans += ')';
+            if (!isSign(out[i+1]) && !isMul(out[i+1]) && out[i+1] != ')')
+                ans += '*';
+        }
+
+        else{
+            ans += out[i];
+        }
+    }
+
+    return ans;
+}
