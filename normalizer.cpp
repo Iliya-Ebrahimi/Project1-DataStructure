@@ -1,16 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// throw an error if the number under a sqrt is negatave !( does not work if the answer under it is negative --> √5-6 )!
-void NegativeSqrt(string s){
-    for (int i = 0; i< s.size()-1;i++){
-        if (s[i] == '√' and s[i+1] == '-'){
-            throw runtime_error("No negative sqrts");
-        }
-    }
-}
-
-
 // Normalizer --> Correct user input
 string normalizer(string expr) {
     auto isSign = [](char c) {

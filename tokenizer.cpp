@@ -5,6 +5,7 @@ using namespace std;
 vector<string> tokenize(const string& expr) {
     vector<string> tokens;
     string token;
+    tokens.push_back("(");
     for (int i = 0; i < expr.size(); ++i) {
         char c = expr[i];
         if (isspace(c)) continue;
@@ -32,5 +33,6 @@ vector<string> tokenize(const string& expr) {
             throw runtime_error("Invalid character: " + string(1, c)); // error for invalid char like # @
         }
     }
+    tokens.push_back(")");
     return tokens; // return a vector for use in tree  
 }
