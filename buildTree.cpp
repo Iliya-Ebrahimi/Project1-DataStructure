@@ -104,10 +104,18 @@ TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
         return new TreeNode(tok);
     }
     else if (tok == "(") {
-        // ...
+        index++;
+        TreeNode* node = parser_add_sub(tokens, index);
+        if (index >= tokens.size() || tokens[index] != ")") {
+            throw runtime_error("Missing closing parenthesis");
+        }
+        index++;
+        return node;
     }
     else {
-        // for operators...
+        index++;
+        TreeNode* opt = var_OR_bracket(tokens, index);
+        return opt;
     }
 }
 
