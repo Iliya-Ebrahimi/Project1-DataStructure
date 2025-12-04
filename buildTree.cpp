@@ -42,14 +42,47 @@ struct TreeNode {
 
 TreeNode* parser_add_sub (const vector<string>& tokens, int& index){
     // parser add Or sub and numbers of tokens
+    TreeNode* left = parser_mult_div(tokens, index);
+    if (index < tokens.size() && (tokens[index] == "+" || tokens[index] == "-")) {
+        string opt = tokens[index];
+        index++;
+        TreeNode* right = parser_add_sub(tokens, index);
+        TreeNode* node = new TreeNode(opt);
+        node -> left = left;
+        node -> right = right;
+        return node;
+    }
+    return left;
 }
 
 TreeNode* parser_mult_div (const vector<string>& tokens, int& index){
     // parser mult Or div and numbers of tokens
+    TreeNode* left = parser_power(tokens, index);
+    if (index < tokens.size() && (tokens[index] == "*" || tokens[index] == "/")) {
+        string opt = tokens[index];
+        index++;
+        TreeNode* right = parser_mult_div(tokens, index);
+        TreeNode* node = new TreeNode(opt);
+        node -> left = left;
+        node -> right = right;
+        return node;
+    }
+    return left;
+
 }
 
 TreeNode* parser_power (const vector<string>& tokens, int& index){
     // parser power and numbers of tokens
+    TreeNode* left = parser_radical(tokens, index);
+    if (index < tokens.size() && tokens[index] == "^") {
+        index++;
+        TreeNode* right = parser_power(tokens, index);
+        TreeNode* node = new TreeNode("^");
+        node -> left = left;
+        node -> right = right;
+        return node;
+    }
+    return left;
 }
 
 TreeNode* parser_radical (const vector<string>& tokens, int& index){
