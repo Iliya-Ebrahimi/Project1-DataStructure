@@ -97,9 +97,9 @@ TreeNode* parser_radical (const vector<string>& tokens, int& index){
     // parser radikal and number of tokens
     if (index < tokens.size() && tokens[index] == "√") {
         index++;
-        TreeNode* right = parser_radical(tokens, index); // example: √√5
+        TreeNode* left = parser_radical(tokens, index); // example: √√5
         TreeNode* node = new TreeNode("√");
-        node -> right = right;
+        node -> left = left;
         return node;
     }
     return var_OR_bracket(tokens, index);
