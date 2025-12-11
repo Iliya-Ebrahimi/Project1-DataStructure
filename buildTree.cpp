@@ -39,6 +39,14 @@ struct TreeNode {
     }
 };
 
+TreeNode* parser_add_sub (const vector<string>& tokens, int& index);
+TreeNode* parser_mult_div (const vector<string>& tokens, int& index);
+TreeNode* parser_power (const vector<string>& tokens, int& index);
+TreeNode* parser_radical (const vector<string>& tokens, int& index);
+TreeNode* var_OR_bracket (const vector<string>& tokens, int& index);
+TreeNode* build_tree (const vector<string>& tokens, int& index);
+
+
 
 TreeNode* parser_add_sub (const vector<string>& tokens, int& index){
     // parser add Or sub and numbers of tokens
@@ -120,7 +128,7 @@ TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
 }
 
 TreeNode* build_tree (const vector<string>& tokens, int& index) {
-    int index = 0;
+    index = 0;
     TreeNode* root = var_OR_bracket(tokens, index);
     if (index != tokens.size()) {
         throw runtime_error("Unexpected token after parsing expression");
