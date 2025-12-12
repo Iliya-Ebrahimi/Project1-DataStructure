@@ -1,5 +1,4 @@
 #include "normalizer.cpp"
 #include "tokenizer.cpp"
-#include "calculator.cpp"
-#include "buildTree.cpp"
-#include "variable_manager.cpp"
+#include "CalculateTree.cpp"
+// #include "buildTree.cpp"

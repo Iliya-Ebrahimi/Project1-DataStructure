@@ -19,9 +19,9 @@ bool right_operator_effect (const string& s) {
 }
 
 // throw an error if the number under a sqrt is negatave !( does not work if the answer under it is negative --> √5-6 )!
-void NegativeSqrt(string s) {
-    for (int i = 0; i < s.size() - 1; i++){
-        if (s[i] == '√' and s[i + 1] == '-'){
+void NegativeSqrt(string s){
+    for (int i = 0; i< s.size()-1;i++){
+        if (s[i] == '√' and s[i+1] == '-'){
             throw runtime_error("No negative sqrts");
         }
     }
@@ -48,7 +48,7 @@ TreeNode* build_tree (const vector<string>& tokens, int& index);
 
 
 
-TreeNode* parser_add_sub (const vector<string>& tokens, int& index) {
+TreeNode* parser_add_sub (const vector<string>& tokens, int& index){
     // parser add Or sub and numbers of tokens
     TreeNode* left = parser_mult_div(tokens, index);
     if (index < tokens.size() && (tokens[index] == "+" || tokens[index] == "-")) {
@@ -63,7 +63,7 @@ TreeNode* parser_add_sub (const vector<string>& tokens, int& index) {
     return left;
 }
 
-TreeNode* parser_mult_div (const vector<string>& tokens, int& index) {
+TreeNode* parser_mult_div (const vector<string>& tokens, int& index){
     // parser mult Or div and numbers of tokens
     TreeNode* left = parser_power(tokens, index);
     if (index < tokens.size() && (tokens[index] == "*" || tokens[index] == "/")) {
@@ -79,7 +79,7 @@ TreeNode* parser_mult_div (const vector<string>& tokens, int& index) {
 
 }
 
-TreeNode* parser_power (const vector<string>& tokens, int& index) {
+TreeNode* parser_power (const vector<string>& tokens, int& index){
     // parser power and numbers of tokens
     TreeNode* left = parser_radical(tokens, index);
     if (index < tokens.size() && tokens[index] == "^") {
@@ -93,7 +93,7 @@ TreeNode* parser_power (const vector<string>& tokens, int& index) {
     return left;
 }
 
-TreeNode* parser_radical (const vector<string>& tokens, int& index) {
+TreeNode* parser_radical (const vector<string>& tokens, int& index){
     // parser radikal and number of tokens
     if (index < tokens.size() && tokens[index] == "√") {
         index++;
@@ -103,14 +103,6 @@ TreeNode* parser_radical (const vector<string>& tokens, int& index) {
         return node;
     }
     return var_OR_bracket(tokens, index);
-}
-
-TreeNode* parser_max_min (const vector<string>& tokens, int& index) {
-    // two child
-}
-
-TreeNode* parser_sin_cos_tan_cot (const vector<string>& tokens, int& index) {
-    // one child
 }
 
 TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
@@ -137,9 +129,12 @@ TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
 
 TreeNode* build_tree (const vector<string>& tokens, int& index) {
     index = 0;
-    TreeNode* root = var_OR_bracket(tokens, index);
+    TreeNode* root = parser_add_sub(tokens, index);
+    //must start with the lowest operation to recursively calculate the expression and make the tree
+    //expression = parser_add_sub
     if (index != tokens.size()) {
         throw runtime_error("Unexpected token after parsing expression");
     }
     return root;
 }
+

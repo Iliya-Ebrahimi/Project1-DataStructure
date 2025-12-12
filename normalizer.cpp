@@ -30,10 +30,10 @@ string normalizer(string expr) {
                 if(expr[k] == '-') c++;
 
             if(bol) {
-                if(c % 2 == 1) out.push_back('-');
+                if(c%2==1) out.push_back('-');
             } 
             else {
-                if(c % 2 == 1) out.push_back('-');
+                if(c%2==1) out.push_back('-');
                 else out.push_back('+');
             }
 
