@@ -18,17 +18,20 @@ void printTree(TreeNode* root, int depth = 0) {
 
 int main(){
     string user_input;
+    string vars;    
+    getline(cin, vars);
     getline(cin, user_input);
-    user_input = normalizer(user_input);
+    // cout << "variable manager: " << VariableManager(user_input, vars) << endl;
+    user_input = normalizer(normalizer(VariableManager(user_input, vars)));
     vector<string>tokens = tokenize(user_input);
-    cout << user_input << endl;
+    cout << endl << "Expression: ";
     for (int i = 0; i < tokens.size(); i++) cout << tokens[i] << " ";
-    cout << endl;
+    cout << endl << endl;;
     int idx = 0;
     TreeNode* root = build_tree(tokens, idx);
     printTree(root);
 
     double ans = calculate_tree(root);
-    cout << ans << endl;
+    cout << endl << "Answer: " << ans << endl;
     delete root;
 }
