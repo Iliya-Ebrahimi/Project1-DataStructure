@@ -2,6 +2,8 @@
 using namespace std;
 
 // Tokenizer
+// max(2, 3)
+// sin 
 vector<string> tokenize(const string& expr) {
     vector<string> tokens;
     string token;
@@ -18,6 +20,7 @@ vector<string> tokenize(const string& expr) {
             --i;
             tokens.push_back(token);
         }
+        // max(2, 3) --> max 2 3
         else if (isalpha(c)) { // var
             token = "";
             while (i < expr.size() && (isalnum(expr[i]) || expr[i] == '_')) {

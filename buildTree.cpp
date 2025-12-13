@@ -97,15 +97,59 @@ TreeNode* parser_radical (const vector<string>& tokens, int& index) {
 
 TreeNode* parser_max_min (const vector<string>& tokens, int& index) {
     // two child
+    TreeNode* left = parser_sin_cos_tan_cot(tokens, index);
+    if (index < tokens.size()) {
+        if (tokens[index] == "max") {
+            index++;
+            TreeNode* right = parser_max_min(tokens, index);
+            TreeNode* node = new TreeNode("max");
+            node -> left = left;
+            node -> right = right;
+            return node;
+        }
+        else if (tokens[index] == "min") {
+            index++;
+            TreeNode* right = parser_max_min(tokens, index);
+            TreeNode* node = new TreeNode("min");
+            node -> left = left;
+            node -> right = right;
+            return node;
+        }
+        return left;
+    }
 }
 
 TreeNode* parser_sin_cos_tan_cot (const vector<string>& tokens, int& index) {
     // one child
+    if (index < tokens.size() && (tokens[index] == "")) {
+        index++;
+        TreeNode* left = parser_radical(tokens, index);
+        TreeNode* node = new TreeNode("");
+        node -> left = left;
+        return node;
+    }
+    return var_OR_bracket(tokens, index);
 }
 
 TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
     string tok = tokens[index];
-    if (isdigit(tok[0]) || isalpha(tok[0])) {
+    if (isdigit(tok[0])) {
+        index++;
+        return new TreeNode(tok);
+    }
+    else if(tok == "max" || tok == "Max" || tok == "maX" || 
+            tok == "mAx" || tok == "MAX" || tok == "MAx" || 
+            tok == "MaX" || tok == "mAX" || tok == "min" || 
+            tok == "Min" || tok == "miN" || tok == "mIn" || 
+            tok == "MIN" || tok == "MIn" || tok == "MiN" || 
+            tok == "mIN") {
+
+            index++;
+            TreeNode* node = parser_max_min(tokens, index);
+            return node;
+
+    }
+    else if(isalpha(tok[0])) {
         index++;
         return new TreeNode(tok);
     }
@@ -122,7 +166,7 @@ TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
         index++;
         auto operand = var_OR_bracket(tokens, index);
         if (tok == "-") {
-            auto node = new TreeNode("-");
+            TreeNode* node = new TreeNode("-");
             node->left = new TreeNode("0");
             node->right = operand;
             return node;
