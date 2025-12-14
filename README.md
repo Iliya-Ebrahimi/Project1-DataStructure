@@ -34,13 +34,17 @@ Splits the normalized expression into tokens (numbers, variables, operators, par
 ### 4. Expression Tree Construction (`buildTree.cpp`)
 Builds the expression tree using a **Recursive Descent Parser** to correctly reflect operator precedence:
 - **Operator precedence (highest to lowest)**:
-  1. Exponentiation (`^`) and square root (`√`)
+  1. Exponentiation (`^`) and square root (`√` / `@`)
   2. Multiplication (`*`) and division (`/`)
   3. Addition (`+`) and subtraction (`-`)
 - Parentheses are fully supported to override default precedence.
 
 ### 5. Expression Evaluation (`CalculateTree.cpp`)
 Computes the final value by performing a **post-order traversal** of the expression tree.
+
+### 6. Graphical tree design and main program execution (`main.cpp`)
+In this function, the main program is executed and our graph image is also created.
+
 
 ---
 
@@ -52,7 +56,7 @@ Computes the final value by performing a **post-order traversal** of the express
 | `*`      | Multiplication   |
 | `/`      | Division         |
 | `^`      | Exponentiation   |
-| `√`      | Square root      |
+| `√` / `@`| Square root      |
 
 ---
 

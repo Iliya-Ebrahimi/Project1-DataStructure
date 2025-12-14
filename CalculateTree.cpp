@@ -18,7 +18,7 @@ double calculate_tree(TreeNode* node) {
         else { return y / x; }
     }
     if(node->value == "^") return pow(y, x);
-    if(node->value == "√") return pow(y, 0.5);
+    if(node->value == "@") return pow(y, 0.5);
     if(node->value == "max") return max(x, y);
     if(node->value == "min") return min(x, y);
 }

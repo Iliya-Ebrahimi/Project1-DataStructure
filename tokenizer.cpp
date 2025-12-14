@@ -2,8 +2,6 @@
 using namespace std;
 
 // Tokenizer
-// max(2, 3)
-// sin 
 vector<string> tokenize(const string& expr) {
     vector<string> tokens;
     string token;
@@ -29,7 +27,7 @@ vector<string> tokenize(const string& expr) {
             --i;
             tokens.push_back(token);
         }
-        else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '(' || c == ')' || c == '√') { // operand
+        else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '(' || c == ')' || c == '@') { // operand
             tokens.push_back(string(1, c));
         }
         else {

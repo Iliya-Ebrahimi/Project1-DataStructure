@@ -2,14 +2,14 @@
 using namespace std;
 
 bool isOperator (const string& s) {
-    return (s == "+" || s == "-" || s == "*" || s == "/" || s == "^" || s == "√");
+    return (s == "+" || s == "-" || s == "*" || s == "/" || s == "^" || s == "@");
 }
 
 
-// throw an error if the number under a sqrt is negatave !( does not work if the answer under it is negative --> √5-6 )!
+// throw an error if the number under a sqrt is negatave !( does not work if the answer under it is negative --> @5-6 )!
 void NegativeSqrt(string s) {
     for (int i = 0; i < s.size() - 1;i++){
-        if (s[i] == '√' and s[i + 1] == '-'){
+        if (s[i] == '@' and s[i + 1] == '-'){
             throw runtime_error("No negative sqrts");
         }
     }
@@ -85,51 +85,52 @@ TreeNode* parser_power (const vector<string>& tokens, int& index) {
 
 TreeNode* parser_radical (const vector<string>& tokens, int& index) {
     // parser radikal and number of tokens
-    if (index < tokens.size() && tokens[index] == "√") {
+    if (index < tokens.size() && tokens[index] == "@") {
         index++;
-        TreeNode* left = parser_radical(tokens, index); // example: √√5
-        TreeNode* node = new TreeNode("√");
+        TreeNode* left = parser_radical(tokens, index); // example: @@5
+        TreeNode* node = new TreeNode("@");
         node -> left = left;
+        node -> right = new TreeNode("0");
         return node;
     }
     return var_OR_bracket(tokens, index);
 }
 
-TreeNode* parser_max_min (const vector<string>& tokens, int& index) {
-    // two child
-    TreeNode* left = parser_sin_cos_tan_cot(tokens, index);
-    if (index < tokens.size()) {
-        if (tokens[index] == "max") {
-            index++;
-            TreeNode* right = parser_max_min(tokens, index);
-            TreeNode* node = new TreeNode("max");
-            node -> left = left;
-            node -> right = right;
-            return node;
-        }
-        else if (tokens[index] == "min") {
-            index++;
-            TreeNode* right = parser_max_min(tokens, index);
-            TreeNode* node = new TreeNode("min");
-            node -> left = left;
-            node -> right = right;
-            return node;
-        }
-        return left;
-    }
-}
+// TreeNode* parser_max_min (const vector<string>& tokens, int& index) {
+//     // two child
+//     TreeNode* left = parser_sin_cos_tan_cot(tokens, index);
+//     if (index < tokens.size()) {
+//         if (tokens[index] == "max") {
+//             index++;
+//             TreeNode* right = parser_max_min(tokens, index);
+//             TreeNode* node = new TreeNode("max");
+//             node -> left = left;
+//             node -> right = right;
+//             return node;
+//         }
+//         else if (tokens[index] == "min") {
+//             index++;
+//             TreeNode* right = parser_max_min(tokens, index);
+//             TreeNode* node = new TreeNode("min");
+//             node -> left = left;
+//             node -> right = right;
+//             return node;
+//         }
+//         return left;
+//     }
+// }
 
-TreeNode* parser_sin_cos_tan_cot (const vector<string>& tokens, int& index) {
-    // one child
-    if (index < tokens.size() && (tokens[index] == "")) {
-        index++;
-        TreeNode* left = parser_radical(tokens, index);
-        TreeNode* node = new TreeNode("");
-        node -> left = left;
-        return node;
-    }
-    return var_OR_bracket(tokens, index);
-}
+// TreeNode* parser_sin_cos_tan_cot (const vector<string>& tokens, int& index) {
+//     // one child
+//     if (index < tokens.size() && (tokens[index] == "")) {
+//         index++;
+//         TreeNode* left = parser_radical(tokens, index);
+//         TreeNode* node = new TreeNode("");
+//         node -> left = left;
+//         return node;
+//     }
+//     return var_OR_bracket(tokens, index);
+// }
 
 TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
     string tok = tokens[index];
@@ -137,18 +138,18 @@ TreeNode* var_OR_bracket (const vector<string>& tokens, int& index) {
         index++;
         return new TreeNode(tok);
     }
-    else if(tok == "max" || tok == "Max" || tok == "maX" || 
-            tok == "mAx" || tok == "MAX" || tok == "MAx" || 
-            tok == "MaX" || tok == "mAX" || tok == "min" || 
-            tok == "Min" || tok == "miN" || tok == "mIn" || 
-            tok == "MIN" || tok == "MIn" || tok == "MiN" || 
-            tok == "mIN") {
+    // else if(tok == "max" || tok == "Max" || tok == "maX" || 
+    //         tok == "mAx" || tok == "MAX" || tok == "MAx" || 
+    //         tok == "MaX" || tok == "mAX" || tok == "min" || 
+    //         tok == "Min" || tok == "miN" || tok == "mIn" || 
+    //         tok == "MIN" || tok == "MIn" || tok == "MiN" || 
+    //         tok == "mIN") {
 
-            index++;
-            TreeNode* node = parser_max_min(tokens, index);
-            return node;
+    //         index++;
+    //         TreeNode* node = parser_max_min(tokens, index);
+    //         return node;
 
-    }
+    // }
     else if(isalpha(tok[0])) {
         index++;
         return new TreeNode(tok);
